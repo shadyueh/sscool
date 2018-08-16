@@ -1,0 +1,52 @@
+Preciso de um software que será utilizado somente internamente (não haverá acesso externo, então o layout pode ser bem simples e funcional), onde irei cadastrar estrutura de provas, e notas de candidatos, e gerar um relatório usando textos pré-cadastrados. Não preciso de controle de acesso. Preciso que seja em PHP, com MySQL ou PostgreSQL (o software vai rodar em Windows, usando Xampp). Não é necessário usar framework, mas se achar melhor, sem problemas. As telas podem utilizar HTML puro. Basicamente preciso das operações mais simples, inserir, editar, excluir e listar, conforme explicado abaixo. Qualquer dúvida me avise.
+
+
+Tabelas
+- Exame: idExame; dataHora; nome (texto);
+- Prova: idProva; idExame; dataHora; nome (texto);
+- Item: idItem; idProva; dataHora; numero (inteiro); nome (texto); descricao (texto longo); notaMaxima (decimal);
+- AnulacaoItem: idAnulacaoItem; idItem; dataHora; nome (texto); texto (texto longo);
+- Candidato: idCandidato; dataHora; cpf (texto); nome (texto);
+- Resposta: idResposta; idCandidato; idItem; idAnulacaoItem(opcional); idModelo(opcional); dataHora; notaObtida (decimal); linhaInicial (inteiro); linhaFinal (inteiro); notaDesejada (decimal)
+- Modelo: idModelo, dataHora; nome (texto); texto (texto)
+
+Telas (Para cada tela de cadastro, precisamos de uma listagem com as opções editar e excluir)
+1 - Cadastro de Exame
+- Nome do Exame (Tabela Exame, Campo nome)
+
+2 - Cadastro de Prova
+- Selecionar Exame (Tabela Exame)
+- Nome da Prova (Tabela Prova, Campo nome)
+
+3 - Cadastro de Item
+- Selecionar Prova (Tabela Prova)
+- Digitar quantidade de itens. Ao digitar, abrir tabela com a quantidade de itens e os campos abaixo, para cadastrar todos em uma só tela.
+
+- Número do item (Tabela Item, Campo numero)
+- Nome do item (Tabela Item, Campo nome)
+- Descrição do item (Tabela Item, Campo descrição)
+- Nome máxima (Tabela Item, Campo notaMaxima)
+- Nome da tese de anulação (opcional) (Tabela AnulaçãoItem, Campo nome)
+- Texto para anulação (opcional) (Tabela AnulaçãoItem, Campo texto)
+
+4 - Cadastro de Candidato (Na tela de listagem, exibir apenas o nome da prova, cpf e nome do candidato, e incluir um link para a tela 5)
+- Selecionar Prova (Tabela Prova)
+- CPF do candidato (Tabela Candidato, Campo cpf)
+- Nome do candidato (Tabela Candidato, Campo nome)
+
+Abrir uma lista com todos os itens cadastrados para a prova selecionada, com uma coluna para cada campo da tabela. Nessa lista, incluir os campos abaixo para cada item.
+- Nota obtida (Tabela Resposta, Campo notaObtida)
+- Nota desejada (opcional, se for maior que zero, é obrigatório selecionar ou uma tese de anulação ou um modelo) (Tabela Resposta, Campo notaDesejada)
+- Linha inicial (opcional) (Tabela Resposta, Campo linhaInicial)
+- Linha final (opcional) (Tabela Resposta, Campo linhaFinal)
+- Selecionar tese de anulação (opcional) (buscar da tabela AnulacaoItem, exibir o campo nome)
+- Selecionar modelo (opcional) (buscar da tabela Modelo, exibir o campo nome)
+
+Obs.: No final da listagem, exibir a somatória do campo Nota Obtida, e também a somatória do campo Nota Desejada, e a soma dos dois.
+
+5 - Gerar minuta (essa tela é somente um relatório, com informação dos dados)
+- Nome da Prova
+- CPF do Candidato
+- Nome do Candidato
+
+Obs.: Fazer uma busca na tabela Resposta, pelo idCandidato, onde a notaDesejada é maior que zero. Exibir o campo texto ou da tabela AnulacaoItem ou da tabela Modelo, dependendo de qual dos dois foi preenchido. Nessa exibição, substituir dentro do texto a string LINHAINICIAL pelo campo linhaInicial e a string LINHAFINAL pelo campo linhaFinal. Exibir ordenando pelo campo numero da tabela Item. 
